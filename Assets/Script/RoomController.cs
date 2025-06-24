@@ -1,9 +1,9 @@
 using UnityEngine;
-using Cinemachine;
+using Unity.Cinemachine;
 
 public class RoomController : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera _roomCamera;
+    [SerializeField] private CinemachineCamera _roomCamera;
     [SerializeField] private Renderer[] _renderers;
 
     private void OnEnable()

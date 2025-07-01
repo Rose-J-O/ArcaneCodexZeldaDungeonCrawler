@@ -6,14 +6,21 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _inputMovement;
     private Vector3 _direction;
     private Vector3 _lookDirection;
+    private CharacterController _characterController;
 
     [SerializeField] private float _speed = 5f;
     [SerializeField] Transform _model;
+    [SerializeField] float _gravity = -9.81f;
 
     private void OnEnable()
     {
         _input = new InputSystem_Actions();
         _input.Player.Enable();
+    }
+
+    private void Start()
+    {
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -22,13 +29,28 @@ public class PlayerMovement : MonoBehaviour
         _direction.x = _inputMovement.x;
         _direction.z = _inputMovement.y;
 
-        transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
+        if (!_characterController.isGrounded)
+            _direction.y += _gravity * Time.deltaTime;
+        else
+            _direction.y = 0;
 
-        _lookDirection = transform.position + _direction.normalized;
+        //transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
+        _characterController.Move(_direction * (_speed * Time.deltaTime));
+
+        _lookDirection = _direction;
+        _lookDirection.y = 0;
+        _lookDirection.Normalize();
+        _lookDirection += transform.position;
         _model.LookAt(_lookDirection);
     }
 
-
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.TryGetComponent<ICollidable>(out ICollidable collidable))
+        {
+            collidable.OnCollide(this.transform);
+        }
+    }
 
 
     private void OnDisable()

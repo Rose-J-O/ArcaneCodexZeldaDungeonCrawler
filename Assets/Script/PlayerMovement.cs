@@ -29,12 +29,8 @@ public class PlayerMovement : MonoBehaviour
         _direction.x = _inputMovement.x;
         _direction.z = _inputMovement.y;
 
-        if (!_characterController.isGrounded)
-            _direction.y += _gravity * Time.deltaTime;
-        else
-            _direction.y = 0;
+        ApplyGravity();
 
-        //transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
         _characterController.Move(_direction * (_speed * Time.deltaTime));
 
         _lookDirection = _direction;
@@ -42,6 +38,18 @@ public class PlayerMovement : MonoBehaviour
         _lookDirection.Normalize();
         _lookDirection += transform.position;
         _model.LookAt(_lookDirection);
+    }
+
+    private Vector3 _applyGravity = new Vector3(); 
+    private void ApplyGravity()
+    {
+        if (_characterController.isGrounded)
+        {
+            return;
+        }
+
+        _applyGravity.y = _gravity * Time.deltaTime;
+        _characterController.Move(_applyGravity);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

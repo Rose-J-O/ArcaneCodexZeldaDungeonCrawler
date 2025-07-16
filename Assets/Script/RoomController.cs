@@ -9,7 +9,13 @@ public class RoomController : MonoBehaviour
     private void OnEnable()
     {
         if (_roomCamera == null)
-            Debug.LogWarning($"{transform.name}'s Camera is Null", this.gameObject);
+        {
+            _roomCamera = GetComponentInChildren<CinemachineCamera>();
+            if (_roomCamera == null)
+            {
+                Debug.LogWarning($"{transform.name}'s Camera is Null", this.gameObject);
+            }
+        }
         _renderers = GetComponentsInChildren<Renderer>();
     }
 

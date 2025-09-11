@@ -7,7 +7,15 @@ public class PlayerInformation : MonoBehaviour
     [SerializeField] private int _currentHealth;
     [SerializeField] private int _defensePoints;
     [SerializeField] private float _speed = 5f;
+    [SerializeField] private int _baseAttackPower = 10;
     [SerializeField] private int _attackDamage = 10;
+
+
+    [Header("Sword Settings")]
+    [SerializeField] private bool[] _swordAcquiredArray = new bool[5];
+    [SerializeField] private int[] _swordPowerArray = new int[] { 1, 2, 4, 8, 16 };
+    [SerializeField] private Transform[] _swordDisplay;
+    [SerializeField] private Transform _unarmed;
 
     Animator _animator;
 
@@ -19,6 +27,7 @@ public class PlayerInformation : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        SetAttackPower();
     }
 
     public void CauseDamge(int damageAmount)
@@ -67,5 +76,35 @@ public class PlayerInformation : MonoBehaviour
     public void EquipArmor(int armorDefense)
     {
         _defensePoints += armorDefense;
+    }
+
+    [ContextMenu("Update Sword Power")]
+    public void SetAttackPower()
+    {
+        _unarmed.gameObject.SetActive(false);
+        foreach (Transform t in _swordDisplay)
+            t.gameObject.SetActive(false);
+
+        for (int i = _swordAcquiredArray.Length - 1; i >= 0; i--)
+        {
+            if (_swordAcquiredArray[i])
+            {
+                _attackDamage = _baseAttackPower + _swordPowerArray[i];
+                _swordDisplay[i].gameObject.SetActive(true);
+                return;
+            }
+        }
+        _unarmed.gameObject.SetActive(true);
+    }
+
+    public void AcquireSword(int id)
+    {
+        if(id >= _swordAcquiredArray.Length || id < 0)
+        {
+            Debug.LogError("THis Sowrd ID does not exist");
+            return;
+        }
+        _swordAcquiredArray[id] = true;
+        SetAttackPower();
     }
 }

@@ -6,3 +6,7 @@ public enum DungeonDirections
     West
 }
 
+public enum EquipmentType
+{
+    Sword
+}

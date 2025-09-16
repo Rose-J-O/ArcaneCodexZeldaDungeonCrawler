@@ -30,7 +30,8 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _invisibiltyRoutine;
     private Coroutine _kickbackRoutine;
 
-    Animator _animator;
+    Animator _baseAnimator;
+    Animator _characterAnimator;
 
     private void OnEnable()
     {
@@ -43,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _playerInformation = GetComponent<PlayerInformation>();
-        _animator = GetComponent<Animator>();
+        _baseAnimator = GetComponent<Animator>();
+        _characterAnimator = transform.Find("Model").GetComponent<Animator>();
 
         _shortWait = new WaitForSeconds(_shortWaitLength);
         _longWait = new WaitForSeconds(_longWaitlength);
@@ -71,6 +73,8 @@ public class PlayerMovement : MonoBehaviour
             else
                 _direction.y = 0;
 
+            _characterAnimator.SetFloat("Speed", _direction.magnitude);
+
             //transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
             _characterController.Move(_direction * (_speed * Time.deltaTime));
 
@@ -91,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_canAttack && !GameManager.Instance.IsMenuActive)
         {
-            _animator.SetTrigger("Attack");
+            _baseAnimator.SetTrigger("Attack");
             _canAttack = false;
             StartCoroutine(AttackCooldown());
         }

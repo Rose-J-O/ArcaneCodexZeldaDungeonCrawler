@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     Animator _baseAnimator;
     Animator _characterAnimator;
+    float _animatorMovementSpeed = 0;
 
     private void OnEnable()
     {
@@ -45,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _playerInformation = GetComponent<PlayerInformation>();
         _baseAnimator = GetComponent<Animator>();
-        _characterAnimator = transform.Find("Model").GetComponent<Animator>();
+        _characterAnimator = transform.Find("Character").Find("Model").GetComponent<Animator>();
 
         _shortWait = new WaitForSeconds(_shortWaitLength);
         _longWait = new WaitForSeconds(_longWaitlength);
@@ -73,7 +74,16 @@ public class PlayerMovement : MonoBehaviour
             else
                 _direction.y = 0;
 
-            _characterAnimator.SetFloat("Speed", _direction.magnitude);
+            //Update the Speed value in Character Animator if Moving or Speed is not 0
+            if (_inputMovement.x != 0 || _inputMovement.y != 0)
+                _animatorMovementSpeed = _direction.magnitude;
+            else 
+                _animatorMovementSpeed = 0;
+
+            if (_characterAnimator.GetFloat("Speed") != _animatorMovementSpeed)
+                _characterAnimator.SetFloat("Speed", _animatorMovementSpeed);
+            else if (_characterAnimator.GetFloat("Speed") != 0 && _animatorMovementSpeed == 0)
+                _characterAnimator.SetFloat("Speed", 0);
 
             //transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
             _characterController.Move(_direction * (_speed * Time.deltaTime));
@@ -95,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_canAttack && !GameManager.Instance.IsMenuActive)
         {
-            _baseAnimator.SetTrigger("Attack");
+            _characterAnimator.SetTrigger("Attack");
             _canAttack = false;
             StartCoroutine(AttackCooldown());
         }

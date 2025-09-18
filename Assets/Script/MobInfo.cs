@@ -24,6 +24,7 @@ public class MobInfo : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.LogWarning($"Hit Target with {other.name}, {other.tag}");
         if (_isAttackable && other.CompareTag("Weapon"))
         {
             _currentHealth -= other.GetComponentInParent<PlayerInformation>().AttackDamage;

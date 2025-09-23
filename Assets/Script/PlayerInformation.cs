@@ -18,6 +18,7 @@ public class PlayerInformation : MonoBehaviour
     [SerializeField] private Transform _unarmed;
 
     Animator _animator;
+    Collider _attackCollider;
 
     public int MaxHealth => _maxHealth;
     public int CurrentHealth => _currentHealth;
@@ -91,6 +92,7 @@ public class PlayerInformation : MonoBehaviour
             {
                 _attackDamage = _baseAttackPower + _swordPowerArray[i];
                 _swordDisplay[i].gameObject.SetActive(true);
+                _attackCollider = _swordDisplay[i].GetComponent<Collider>();
                 return;
             }
         }
@@ -106,5 +108,10 @@ public class PlayerInformation : MonoBehaviour
         }
         _swordAcquiredArray[id] = true;
         SetAttackPower();
+    }
+
+    public void ActivateAttackCollider()
+    {
+        _attackCollider.enabled = !_attackCollider.enabled;
     }
 }

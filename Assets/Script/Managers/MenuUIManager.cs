@@ -26,7 +26,7 @@ public class MenuUIManager : MonoBehaviour
         _healthText.SetText("{0}/{1} hp", _playerInformation.CurrentHealth, _playerInformation.MaxHealth);
         _coinText.SetText(_inventoryManager.InventoryAmount(_coinID).ToString());
         int hearts = _inventoryManager.InventoryAmount(_heartContainerID);
-        if (hearts >= 0 ||  hearts < _heartContainersSprites.Length)
+        if (hearts >= 0 &&  hearts < _heartContainersSprites.Length)
             _heartContainerImage.sprite = _heartContainersSprites[hearts];
     }
 }

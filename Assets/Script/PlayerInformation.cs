@@ -25,10 +25,12 @@ public class PlayerInformation : MonoBehaviour
     public float Speed => _speed;
     public int AttackDamage => _attackDamage;
 
+    public bool[] AcquiredSwords => _swordAcquiredArray;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        SetAttackPower();
+        //SetAttackPower();
     }
 
     public void CauseDamge(int damageAmount)
@@ -80,23 +82,18 @@ public class PlayerInformation : MonoBehaviour
     }
 
     [ContextMenu("Update Sword Power")]
-    public void SetAttackPower()
+    public void SetAttackPower(int index)
     {
         _unarmed.gameObject.SetActive(false);
         foreach (Transform t in _swordDisplay)
             t.gameObject.SetActive(false);
 
-        for (int i = _swordAcquiredArray.Length - 1; i >= 0; i--)
-        {
-            if (_swordAcquiredArray[i])
-            {
-                _attackDamage = _baseAttackPower + _swordPowerArray[i];
-                _swordDisplay[i].gameObject.SetActive(true);
-                _attackCollider = _swordDisplay[i].GetComponent<Collider>();
-                return;
-            }
-        }
-        _unarmed.gameObject.SetActive(true);
+
+        _attackDamage = _baseAttackPower + _swordPowerArray[index];
+        _swordDisplay[index].gameObject.SetActive(true);
+        _attackCollider = _swordDisplay[index].GetComponent<Collider>();
+        
+        //_unarmed.gameObject.SetActive(true);
     }
 
     public void AcquireSword(int id)
@@ -107,7 +104,7 @@ public class PlayerInformation : MonoBehaviour
             return;
         }
         _swordAcquiredArray[id] = true;
-        SetAttackPower();
+        //SetAttackPower();
     }
 
     public void ActivateAttackCollider()

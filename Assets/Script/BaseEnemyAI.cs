@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+[SelectionBase]
 public class BaseEnemyAI : MonoBehaviour
 {
     NavMeshAgent _agent;
@@ -9,6 +10,9 @@ public class BaseEnemyAI : MonoBehaviour
     int _targetID = 0;
     GameObject _player;
     PlayerInformation _playerInfo;
+    Animator _anim;
+    float _agentMoveSpeed;
+    bool _canAttack;
 
     [SerializeField] float _attackTime = 2f;
     bool _isAttacking = false;
@@ -18,6 +22,9 @@ public class BaseEnemyAI : MonoBehaviour
 
     private void Start()
     {
+        if (_anim == null)
+            _anim = GetComponentInChildren<Animator>();
+
         if (transform.parent.CompareTag("Room"))
             _targets = transform.parent.Find("Patrol Route").GetComponentsInChildren<Transform>();
 
@@ -25,6 +32,7 @@ public class BaseEnemyAI : MonoBehaviour
         if (_agent == null) Debug.LogError("No Agent found on this Enemy", this.gameObject);
 
         _agent.SetDestination(_targets[0].position);
+        _agentMoveSpeed = _agent.speed;
     }
 
     private void Update()
@@ -32,6 +40,8 @@ public class BaseEnemyAI : MonoBehaviour
         if (_player != null && _agent.remainingDistance <= _attackDistance && !_isAttacking)
         {
             StartCoroutine(AttackPlayer());
+            _anim.SetTrigger("Attack");
+            _agent.speed = 0;
             //Debug.Log("Player Reached");
             _playerInfo.CauseDamge(_attackDamage);
             DirectPlayer();
@@ -48,8 +58,7 @@ public class BaseEnemyAI : MonoBehaviour
             if (_targetID == _targets.Length) _targetID = 0;
 
             _agent.destination = _targets[_targetID].position;
-        }    
-        
+        }            
     }
 
     public void DirectPlayer()
@@ -71,5 +80,12 @@ public class BaseEnemyAI : MonoBehaviour
         _isAttacking = true;
         yield return new WaitForSeconds(_attackTime);
         _isAttacking = false;
+        _anim.ResetTrigger("Attack");
+        _agent.speed = _agentMoveSpeed;
+    }
+
+    public void EnableAttack(bool isEnabled)
+    {
+        _canAttack = isEnabled;
     }
 }

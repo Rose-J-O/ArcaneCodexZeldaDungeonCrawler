@@ -5099,7 +5099,7 @@ MonoBehaviour:
   _speed: 5
   _baseAttackPower: 10
   _attackDamage: 10
-  _swordAcquiredArray: 0101010101
+  _swordAcquiredArray: 0000000000
   _swordPowerArray: 0100000002000000040000000800000010000000
   _swordDisplay:
   - {fileID: 1791938117}

@@ -14,6 +14,7 @@ public class RoomController : MonoBehaviour
     private Room _roomInfo;
     private NavMeshSurface _navMeshSurface;
     [SerializeField] private GameObject _enemyPrefab;
+    BaseEnemyAI _enemyAi = null;
 
     private void OnEnable()
     {
@@ -48,6 +49,12 @@ public class RoomController : MonoBehaviour
         foreach (var renderer in _renderers)
         {
             renderer.enabled = active;
+            _enemyAi = renderer.GetComponentInParent<BaseEnemyAI>();
+            if (_enemyAi != null)
+            {
+                Debug.Log("Found EnemyAi");
+                _enemyAi.EnableAttack(active);
+            }
         }
     }
 
@@ -60,7 +67,7 @@ public class RoomController : MonoBehaviour
         Transform[] points = transform.Find("Patrol Route").GetComponentsInChildren<Transform>();
 
         Transform spawnPoint = points[Random.Range(0, points.Length)];
-        _renderers.Add(Instantiate(_enemyPrefab, spawnPoint.position, Quaternion.identity, transform).GetComponent<Renderer>()); 
+        _renderers.AddRange(Instantiate(_enemyPrefab, spawnPoint.position, Quaternion.identity, transform).GetComponentsInChildren<Renderer>()); 
 
         foreach(Transform t in _environmentObjects)
         {

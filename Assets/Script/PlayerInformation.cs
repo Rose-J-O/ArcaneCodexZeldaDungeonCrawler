@@ -104,6 +104,7 @@ public class PlayerInformation : MonoBehaviour
             return;
         }
         _swordAcquiredArray[id] = true;
+        UIManager.Instance.UpdateSwordDisplay();
         //SetAttackPower();
     }
 

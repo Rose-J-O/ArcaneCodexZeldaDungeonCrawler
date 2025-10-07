@@ -66,8 +66,8 @@ public class RoomController : MonoBehaviour
 
         Transform[] points = transform.Find("Patrol Route").GetComponentsInChildren<Transform>();
 
-        Transform spawnPoint = points[Random.Range(0, points.Length)];
-        _renderers.AddRange(Instantiate(_enemyPrefab, spawnPoint.position, Quaternion.identity, transform).GetComponentsInChildren<Renderer>()); 
+        /*Transform spawnPoint = points[Random.Range(0, points.Length)];
+        _renderers.AddRange(Instantiate(_enemyPrefab, spawnPoint.position, Quaternion.identity, transform).GetComponentsInChildren<Renderer>());*/ 
 
         foreach(Transform t in _environmentObjects)
         {

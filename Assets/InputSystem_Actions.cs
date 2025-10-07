@@ -1045,6 +1045,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SubmitHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6a8f031-9e03-4612-ad67-0096ccdac7f4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1067,6 +1076,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a7b66c3-1a96-4d7c-ab29-5d464fe055ff"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SubmitHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84805acf-4a99-42d6-8f5d-d0ba993e9430"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SubmitHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1163,6 +1194,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_Submit = m_Dialogue.FindAction("Submit", throwIfNotFound: true);
+        m_Dialogue_SubmitHold = m_Dialogue.FindAction("SubmitHold", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1468,11 +1500,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Dialogue;
     private List<IDialogueActions> m_DialogueActionsCallbackInterfaces = new List<IDialogueActions>();
     private readonly InputAction m_Dialogue_Submit;
+    private readonly InputAction m_Dialogue_SubmitHold;
     public struct DialogueActions
     {
         private @InputSystem_Actions m_Wrapper;
         public DialogueActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Submit => m_Wrapper.m_Dialogue_Submit;
+        public InputAction @SubmitHold => m_Wrapper.m_Dialogue_SubmitHold;
         public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1485,6 +1519,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Submit.started += instance.OnSubmit;
             @Submit.performed += instance.OnSubmit;
             @Submit.canceled += instance.OnSubmit;
+            @SubmitHold.started += instance.OnSubmitHold;
+            @SubmitHold.performed += instance.OnSubmitHold;
+            @SubmitHold.canceled += instance.OnSubmitHold;
         }
 
         private void UnregisterCallbacks(IDialogueActions instance)
@@ -1492,6 +1529,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Submit.started -= instance.OnSubmit;
             @Submit.performed -= instance.OnSubmit;
             @Submit.canceled -= instance.OnSubmit;
+            @SubmitHold.started -= instance.OnSubmitHold;
+            @SubmitHold.performed -= instance.OnSubmitHold;
+            @SubmitHold.canceled -= instance.OnSubmitHold;
         }
 
         public void RemoveCallbacks(IDialogueActions instance)
@@ -1583,5 +1623,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     public interface IDialogueActions
     {
         void OnSubmit(InputAction.CallbackContext context);
+        void OnSubmitHold(InputAction.CallbackContext context);
     }
 }

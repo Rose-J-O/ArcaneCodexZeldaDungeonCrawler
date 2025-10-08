@@ -1,12 +1,12 @@
 using UnityEngine;
-using Cinemachine;
 using Unity.AI.Navigation;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.Cinemachine;
 
 public class RoomController : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera _roomCamera;
+    [SerializeField] private CinemachineCamera _roomCamera;
     [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
 
     [SerializeField] private Transform[] _environmentObjects;

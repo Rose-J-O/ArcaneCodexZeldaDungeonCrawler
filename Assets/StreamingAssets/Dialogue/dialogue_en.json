@@ -1,0 +1,16 @@
+{
+    "entries": [
+        {
+            "id": 0,
+            "line": "Hello World."
+        },
+        {
+            "id": 1,
+            "line": "My name is Thom"
+        },
+        {
+            "id": 2,
+            "line": "Can you help me with a quest."
+        }
+    ]
+}

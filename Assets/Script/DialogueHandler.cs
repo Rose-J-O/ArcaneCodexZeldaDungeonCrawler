@@ -19,7 +19,7 @@ public class DialogueHandler : MonoBehaviour
 
     InputSystem_Actions _input;
 
-    Dictionary<int, string> _dialogue = new Dictionary<int, string>();
+    DialogueDictionary _dialogue;
     [SerializeField] DialogueSequence _sequence;
     StringBuilder _sentenceBuilder = new StringBuilder();
 
@@ -36,9 +36,11 @@ public class DialogueHandler : MonoBehaviour
         _input.Dialogue.Submit.performed += Submit_performed;
         _input.Dialogue.SubmitHold.performed += SubmitHold_performed;
         _input.Dialogue.SubmitHold.canceled += SubmitHold_canceled;
-        
+
+        _dialogue = DialogueService.Instance.Dictionary;
+
         //testing and debugging
-        if (_dialogue.Count > 0)
+        if (_dialogue.ById.Count > 0)
             LoadDialogue(_sequence);
 
         _canAdvanceImage.enabled = false;
@@ -46,9 +48,7 @@ public class DialogueHandler : MonoBehaviour
     }
 
     private void Start()
-    {
-        _dialogue.Add(0, "Hello World!");
-        _dialogue.Add(1, "My name is Thom Foxx.");
+    {       
         LoadDialogue(_sequence);
     }
 
@@ -82,7 +82,7 @@ public class DialogueHandler : MonoBehaviour
     {
         _canAdvanceImage.enabled = false;
         yield return null;
-        string sentence = _dialogue[_sequence.dialogueIDs[id]];
+        string sentence = _dialogue.ById[_sequence.dialogueIDs[id]];
         _sentenceBuilder.Clear();
         int count = 0;
         while (count < sentence.Length)
@@ -122,5 +122,12 @@ public class DialogueHandler : MonoBehaviour
         _text.text = string.Empty;
 
         _input.Dialogue.Submit.performed -= Submit_performed;
+
+        if (_dialogueRoutine != null)
+        {
+            StopCoroutine(_dialogueRoutine);
+            _dialogueRoutine = null;
+        }
+
     }
 }

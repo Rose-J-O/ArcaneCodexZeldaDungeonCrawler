@@ -39,6 +39,9 @@ public class DialogueHandler : MonoBehaviour
 
         _dialogue = DialogueService.Instance.Dictionary;
 
+        if (_dialogue == null)
+            Debug.LogError("Dialogue is Null");
+
         //testing and debugging
         if (_dialogue.ById.Count > 0)
             LoadDialogue(_sequence);

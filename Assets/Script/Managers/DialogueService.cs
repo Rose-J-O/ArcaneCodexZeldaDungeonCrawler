@@ -8,6 +8,8 @@ public sealed class DialogueService : MonoBehaviour
     public static DialogueService Instance { get; private set; }
 
     [SerializeField] private string _defaultLanguage = "en";
+    [SerializeField] private string[] _languageCode;
+
     public DialogueDictionary Dictionary { get; } = new DialogueDictionary();
 
     private void Awake()
@@ -26,6 +28,14 @@ public sealed class DialogueService : MonoBehaviour
 
     public void SetLanguage(string lang)
     {
+        PlayerPrefs.SetString("language", lang);
+        StartCoroutine(LoadLanguageCoroutine(lang));
+    }
+
+    public void SetLanguage(Language language)
+    {
+        string lang = _languageCode[(int)language];
+        //Debug.Log(lang);
         PlayerPrefs.SetString("language", lang);
         StartCoroutine(LoadLanguageCoroutine(lang));
     }

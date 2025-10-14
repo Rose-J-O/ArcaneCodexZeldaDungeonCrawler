@@ -10,3 +10,11 @@ public enum EquipmentType
 {
     Sword
 }
+
+public enum Language
+{
+    English,
+    Spanish,
+    French,
+    Chinese
+}

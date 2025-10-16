@@ -16,5 +16,5 @@ public enum Language
     English,
     Spanish,
     French,
-    Chinese
+    Japanese
 }

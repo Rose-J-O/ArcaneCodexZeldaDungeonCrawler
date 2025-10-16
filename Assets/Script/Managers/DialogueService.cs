@@ -9,8 +9,25 @@ public sealed class DialogueService : MonoBehaviour
 
     [SerializeField] private string _defaultLanguage = "en";
     [SerializeField] private string[] _languageCode;
+    Language _currentLang = Language.English;
 
     public DialogueDictionary Dictionary { get; } = new DialogueDictionary();
+    
+    public int CurrentLanguage () {
+        switch (_currentLang)
+        {
+            case Language.English:
+                return (int)Language.English;
+            case Language.Spanish:
+                return (int)Language.Spanish;
+            case Language.French:
+                return (int)Language.French;
+            case Language.Japanese:
+                return (int)Language.Japanese;
+            default:
+                return (int)Language.English;
+        }        
+    } 
 
     private void Awake()
     {
@@ -24,6 +41,16 @@ public sealed class DialogueService : MonoBehaviour
 
         string lang = PlayerPrefs.GetString("language", _defaultLanguage);
         StartCoroutine(LoadLanguageCoroutine(lang));
+
+        for (int i = 0;  i < _languageCode.Length; i++)
+        {
+            if (_languageCode[i] == lang)
+            {
+                _currentLang = (Language)i;
+                break;
+            }
+        }
+
     }
 
     public void SetLanguage(string lang)

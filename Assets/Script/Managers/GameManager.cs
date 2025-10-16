@@ -24,9 +24,14 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void MenuAction_Performed(InputAction.CallbackContext obj)
     {
-        _isMenuActive = !_isMenuActive;
+        MenuActive(!_isMenuActive);
         _menuUI.gameObject.SetActive(_isMenuActive);
         _overlayUI.gameObject.SetActive(!_isMenuActive);
+    }
+
+    public void MenuActive(bool state)
+    {
+        _isMenuActive = state;
 
         if (_isMenuActive)
             Time.timeScale = 0;

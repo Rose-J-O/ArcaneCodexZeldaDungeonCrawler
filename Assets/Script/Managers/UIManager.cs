@@ -7,6 +7,7 @@ public class UIManager : MonoSingleton<UIManager>
     private InventoryManager _inventoryManager;
     private MenuUIManager _menuUIManager;
     private SwordSelectUI _swordSelectUI;
+    private SettingsMenu _settingsMenu;
 
     [Header("Coin Overlay Display")]
     [SerializeField] private int _coinID = 2;
@@ -20,6 +21,7 @@ public class UIManager : MonoSingleton<UIManager>
         _inventoryManager = FindFirstObjectByType<InventoryManager>();
         _menuUIManager = FindFirstObjectByType<MenuUIManager>(FindObjectsInactive.Include);
         _swordSelectUI = FindFirstObjectByType<SwordSelectUI>(FindObjectsInactive.Include);
+        _settingsMenu = FindFirstObjectByType<SettingsMenu>(FindObjectsInactive.Include);
 
         if (_inventoryManager != null)
         {
@@ -57,5 +59,11 @@ public class UIManager : MonoSingleton<UIManager>
     public void UpdateSwordDisplay()
     {
         _swordSelectUI.SetSwordDisplay();
+    }
+
+    public void ActivateSettingsMenu(bool state)
+    {
+        _settingsMenu.transform.parent.gameObject.SetActive(state);
+        _settingsMenu.gameObject.SetActive(state);
     }
 }

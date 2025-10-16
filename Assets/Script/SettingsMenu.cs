@@ -25,6 +25,8 @@ public class SettingsMenu : MonoBehaviour
             }
 
             _languageDropDown.AddOptions(options);
+
+            _languageDropDown.SetValueWithoutNotify(DialogueService.Instance.CurrentLanguage());
         }
     }
 
@@ -32,4 +34,5 @@ public class SettingsMenu : MonoBehaviour
     {
         DialogueService.Instance.SetLanguage((Language)_languageDropDown.value);
     }
+
 }

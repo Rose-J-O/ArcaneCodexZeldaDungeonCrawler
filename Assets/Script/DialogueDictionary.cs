@@ -85,7 +85,7 @@ public class DialogueDictionary
             if (!string.IsNullOrEmpty(e.line) && !_byLine.ContainsKey(e.line))
                 _byLine.Add(e.line, e.id);
 
-            Debug.Log($"ID: {e.id} String: {e.line}");
+            //Debug.Log($"ID: {e.id} String: {e.line}");
         }
     }
 }

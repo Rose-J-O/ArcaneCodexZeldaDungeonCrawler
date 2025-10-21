@@ -42,9 +42,9 @@ public class DialogueHandler : MonoBehaviour
         if (_dialogue == null)
             Debug.LogError("Dialogue is Null");
 
-        //testing and debugging
+       /* //testing and debugging
         if (_dialogue.ById.Count > 0)
-            LoadDialogue(_sequence);
+            LoadDialogue(_sequence);*/
 
         _canAdvanceImage.enabled = false;
         _speed = _dialogueTypeSpeed;
@@ -52,7 +52,7 @@ public class DialogueHandler : MonoBehaviour
 
     private void Start()
     {       
-        LoadDialogue(_sequence);
+        /*LoadDialogue(_sequence);*/
     }
 
     private void Submit_performed(InputAction.CallbackContext obj)
@@ -79,6 +79,12 @@ public class DialogueHandler : MonoBehaviour
         gameObject.SetActive(true);
         if (_dialogueRoutine == null)
             _dialogueRoutine = StartCoroutine(LoadDialogueText(_counter));
+    }
+
+    public void LoadSpeakerInfo(string name, Sprite portrait)
+    {
+        _speakerName.text = name;
+        _speakerImage.sprite = portrait;
     }
 
     IEnumerator LoadDialogueText(int id)

@@ -2,15 +2,23 @@
     "entries": [
         {
             "id": 0,
-            "line": "Hello World."
+            "line": "WElcome to the Dungeon"
         },
         {
             "id": 1,
-            "line": "My name is Thom."
+            "line": "My name is John"
         },
         {
             "id": 2,
-            "line": "Can you help me with a quest."
+            "line": "I will be your guide."
+        },
+        {
+            "id": 3,
+            "line": "Many have entered the Dungeon"
+        },
+        {
+            "id": 4,
+            "line": "But few have left it."
         }
     ]
 }

@@ -8,6 +8,7 @@ public class UIManager : MonoSingleton<UIManager>
     private MenuUIManager _menuUIManager;
     private SwordSelectUI _swordSelectUI;
     private SettingsMenu _settingsMenu;
+    private DialogueHandler _dialogueHandler;
 
     [Header("Coin Overlay Display")]
     [SerializeField] private int _coinID = 2;
@@ -22,6 +23,7 @@ public class UIManager : MonoSingleton<UIManager>
         _menuUIManager = FindFirstObjectByType<MenuUIManager>(FindObjectsInactive.Include);
         _swordSelectUI = FindFirstObjectByType<SwordSelectUI>(FindObjectsInactive.Include);
         _settingsMenu = FindFirstObjectByType<SettingsMenu>(FindObjectsInactive.Include);
+        _dialogueHandler = FindFirstObjectByType<DialogueHandler>(FindObjectsInactive.Include);
 
         if (_inventoryManager != null)
         {
@@ -66,4 +68,12 @@ public class UIManager : MonoSingleton<UIManager>
         _settingsMenu.transform.parent.gameObject.SetActive(state);
         _settingsMenu.gameObject.SetActive(state);
     }
+
+    public void StartDialogueSequence(DialogueSequence sequence, string name, Sprite portrait)
+    {
+        _dialogueHandler.transform.parent.gameObject.SetActive(true);
+        _dialogueHandler.LoadSpeakerInfo(name, portrait);
+        _dialogueHandler.LoadDialogue(sequence);
+    }
+
 }
